@@ -30,6 +30,12 @@ const routes = {
     tokens: [{"old":"/api/v1/account/logout","type":0,"val":"api","end":""},{"old":"/api/v1/account/logout","type":0,"val":"v1","end":""},{"old":"/api/v1/account/logout","type":0,"val":"account","end":""},{"old":"/api/v1/account/logout","type":0,"val":"logout","end":""}],
     types: placeholder as Registry['profile.access_tokens.destroy']['types'],
   },
+  'categories.store': {
+    methods: ["POST"],
+    pattern: '/api/v1/category',
+    tokens: [{"old":"/api/v1/category","type":0,"val":"api","end":""},{"old":"/api/v1/category","type":0,"val":"v1","end":""},{"old":"/api/v1/category","type":0,"val":"category","end":""}],
+    types: placeholder as Registry['categories.store']['types'],
+  },
 } as const satisfies Record<string, AdonisEndpoint>
 
 export { routes }

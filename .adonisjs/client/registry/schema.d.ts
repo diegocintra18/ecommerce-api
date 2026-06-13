@@ -11,24 +11,24 @@ export interface Registry {
     methods: ["POST"]
     pattern: '/api/v1/auth/signup'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/user').signupValidator)>>
+      body: ExtractBody<InferInput<(typeof import('#validators/UserValidator').signupValidator)>>
       paramsTuple: []
       params: {}
-      query: ExtractQuery<InferInput<(typeof import('#validators/user').signupValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/new_account_controller').default['store']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/new_account_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+      query: ExtractQuery<InferInput<(typeof import('#validators/UserValidator').signupValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/NewAccountController').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/NewAccountController').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'auth.access_tokens.store': {
     methods: ["POST"]
     pattern: '/api/v1/auth/login'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/user').loginValidator)>>
+      body: ExtractBody<InferInput<(typeof import('#validators/UserValidator').loginValidator)>>
       paramsTuple: []
       params: {}
-      query: ExtractQuery<InferInput<(typeof import('#validators/user').loginValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/access_tokens_controller').default['store']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/access_tokens_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+      query: ExtractQuery<InferInput<(typeof import('#validators/UserValidator').loginValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/AccessTokensController').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/AccessTokensController').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'profile.profile.show': {
@@ -39,8 +39,8 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/profile_controller').default['show']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/profile_controller').default['show']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/ProfileController').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/ProfileController').default['show']>>>
     }
   }
   'profile.access_tokens.destroy': {
@@ -51,8 +51,20 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/access_tokens_controller').default['destroy']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/access_tokens_controller').default['destroy']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/AccessTokensController').default['destroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/AccessTokensController').default['destroy']>>>
+    }
+  }
+  'categories.store': {
+    methods: ["POST"]
+    pattern: '/api/v1/category'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/CategoryValidator').CreateCategoryValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/CategoryValidator').CreateCategoryValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/CategoriesController').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/CategoriesController').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
 }

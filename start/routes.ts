@@ -33,5 +33,13 @@ router
       .prefix('account')
       .as('profile')
       .use(middleware.auth())
+
+
+    router
+      .group(() => {
+        router.post('/', [controllers.Categories, 'store'])
+      })
+      .prefix('category')
+      .use(middleware.auth())
   })
   .prefix('/api/v1')
