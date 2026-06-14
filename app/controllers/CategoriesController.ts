@@ -1,6 +1,8 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import { CreateCategoryValidator } from '#validators/CategoryValidator'
+import { CreateCategoryValidator, CategoryFiltersValidator } from '#validators/CategoryValidator'
 import { CategoryService } from '#services/CategoryService'
+import { ApiResponse } from '../Utils/ApiResponse.js'
+
 export default class CategoriesController {
   categoryService: CategoryService
 
@@ -11,25 +13,38 @@ export default class CategoriesController {
   /**
    * Display a list of resource
    */
-  async index({}: HttpContext) {}
+  async index({ request, response }: HttpContext) {
+    try {
+      const filters = await request.validateUsing(CategoryFiltersValidator)
+      const categories = await this.categoryService.getList(filters)
+
+      return ApiResponse.success(response, categories)
+    } catch (error) {
+      return ApiResponse.internalError(response)
+    }
+  }
 
   /**
    * Handle form submission for the create action
    */
   async store({ request, response }: HttpContext) {
-    const payload = await request.validateUsing(CreateCategoryValidator)
+    try {
+      const payload = await request.validateUsing(CreateCategoryValidator)
 
-    if (!payload) {
-      return response.status(400).json({ error: 'Invalid category data' })
+      if (!payload) {
+        return ApiResponse.badRequest(response, 'Invalid category data')
+      }
+
+      const category = await this.categoryService.createCategory(payload)
+
+      if (category) {
+        return ApiResponse.created(response, category)
+      }
+
+      return ApiResponse.internalError(response, 'Failed to create category')
+    } catch (error) {
+      return ApiResponse.internalError(response)
     }
-
-    const category = await this.categoryService.createCategory(payload)
-
-    if (category) {
-      return response.status(201).json(category)
-    }
-
-    return response.status(500).json({ error: 'Failed to create category' })
   }
 
   /**

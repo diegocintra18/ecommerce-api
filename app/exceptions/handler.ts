@@ -13,7 +13,42 @@ export default class HttpExceptionHandler extends ExceptionHandler {
    * response to the client
    */
   async handle(error: unknown, ctx: HttpContext) {
-    return super.handle(error, ctx)
+    const status = typeof error === 'object' && error !== null && 'status' in error && typeof (error as any).status === 'number'
+      ? (error as any).status
+      : 500
+
+    const message = typeof error === 'object' && error !== null && 'message' in error && typeof (error as any).message === 'string'
+      ? (error as any).message
+      : 'Internal server error'
+
+    const errorPayload = {
+      error: {
+        code: status === 500 ? 'INTERNAL_SERVER_ERROR' : 'HTTP_ERROR',
+        message: status === 500 ? 'Internal server error' : message,
+      },
+    }
+
+    if (status === 422 && typeof error === 'object' && error !== null && 'errors' in error) {
+      return ctx.response.status(422).json({
+        error: {
+          code: 'VALIDATION_FAILED',
+          message: 'Validation failed',
+          details: (error as any).errors,
+        },
+      })
+    }
+
+    if (status === 404) {
+      return ctx.response.status(404).json({
+        error: {
+          code: 'RESOURCE_NOT_FOUND',
+          message,
+        },
+      })
+    }
+
+    ctx.logger.error(error)
+    return ctx.response.status(status).json(errorPayload)
   }
 
   /**

@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon'
 import { BaseModel, beforeSave, column } from '@adonisjs/lucid/orm'
 import slugify from 'slugify'
 
@@ -10,6 +11,15 @@ export default class Category extends BaseModel {
 
   @column()
   declare slug: string
+
+  @column()
+  declare status: number
+
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
 
   @beforeSave()
   static async generateSlug(category: Category) {
@@ -26,6 +36,7 @@ export default class Category extends BaseModel {
       }
 
       category.slug = slug
+      category.status = 1
     }
   }
 }

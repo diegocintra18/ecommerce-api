@@ -1,4 +1,5 @@
 import CategoryRepository from '../repositories/CategoryRepository.ts'
+import type { CategoryFilters } from '#validators/CategoryValidator'
 
 export class CategoryService {
   private categoryRepository: CategoryRepository
@@ -8,12 +9,10 @@ export class CategoryService {
   }
 
   public async createCategory(payload: any) {
-    try {
-      const category = await this.categoryRepository.createCategory(payload)
-      return category
-    } catch (error) {
-      console.error('Error creating category:', error)
-      throw error
-    }
+    return await this.categoryRepository.createCategory(payload)
+  }
+
+  public async getList(filters: CategoryFilters) {
+    return this.categoryRepository.getList(filters)
   }
 }

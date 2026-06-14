@@ -35,11 +35,19 @@ router
       .use(middleware.auth())
 
 
+    // Private Envdpoints
     router
       .group(() => {
         router.post('/', [controllers.Categories, 'store'])
       })
       .prefix('category')
       .use(middleware.auth())
+
+    // Public Endpoints
+    router
+      .group(() => {
+        router.get('/', [controllers.Categories, 'index'])
+      })
+      .prefix('category')
   })
   .prefix('/api/v1')

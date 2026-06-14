@@ -67,4 +67,16 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/CategoriesController').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'categories.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/category'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/CategoryValidator').CategoryFiltersValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/CategoriesController').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/CategoriesController').default['index']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
 }
