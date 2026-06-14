@@ -1,25 +1,27 @@
 export const ApiResponse = {
   success(response: any, data: unknown, meta?: Record<string, unknown>) {
-    if (
-      data &&
-      typeof data === 'object' &&
-      'data' in data &&
-      'meta' in data &&
-      !(data instanceof Array)
-    ) {
-      return response.ok(data)
+    if (data && typeof data === 'object') {
+      const maybeData = (data as any).data
+      const maybeMeta = (data as any).meta
+
+      if (maybeData !== undefined && maybeMeta !== undefined) {
+        return response.status(200).json({
+          data: maybeData,
+          meta: maybeMeta,
+        })
+      }
     }
 
     const payload = meta ? { data, meta } : { data }
-    return response.ok(payload)
+    return response.status(200).json(payload)
   },
 
   created(response: any, data: unknown) {
-    return response.created({ data })
+    return response.status(201).json({ data })
   },
 
   badRequest(response: any, message = 'Bad request', details?: unknown) {
-    return response.badRequest({
+    return response.status(400).json({
       error: {
         code: 'BAD_REQUEST',
         message,
