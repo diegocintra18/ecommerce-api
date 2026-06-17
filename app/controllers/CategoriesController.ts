@@ -1,7 +1,7 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import { CreateCategoryValidator, CategoryFiltersValidator } from '#validators/CategoryValidator'
 import { CategoryService } from '#services/CategoryService'
-import { ApiResponse } from '../Utils/ApiResponse.js'
+// Usar respostas nativas do Adonis via `response`
 
 export default class CategoriesController {
   categoryService: CategoryService
@@ -18,9 +18,9 @@ export default class CategoriesController {
       const filters = await request.validateUsing(CategoryFiltersValidator)
       const categories = await this.categoryService.getList(filters)
 
-      return ApiResponse.success(response, categories)
+      return response.ok(categories)
     } catch (error) {
-      return ApiResponse.internalError(response)
+      return response.status(500).json({ error: 'Internal server error' })
     }
   }
 
@@ -32,18 +32,18 @@ export default class CategoriesController {
       const payload = await request.validateUsing(CreateCategoryValidator)
 
       if (!payload) {
-        return ApiResponse.badRequest(response, 'Invalid category data')
+        return response.status(400).json({ error: 'Invalid category data' })
       }
 
       const category = await this.categoryService.createCategory(payload)
 
       if (category) {
-        return ApiResponse.created(response, category)
+        return response.status(201).json({ data: category })
       }
 
-      return ApiResponse.internalError(response, 'Failed to create category')
+      return response.status(500).json({ error: 'Failed to create category' })
     } catch (error) {
-      return ApiResponse.internalError(response)
+      return response.status(500).json({ error: 'Internal server error' })
     }
   }
 
