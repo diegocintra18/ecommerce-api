@@ -11,7 +11,13 @@ export default class CategoriesController {
   }
 
   /**
-   * Display a list of resource
+   * @index
+   * @operationId getCategories
+   * @description Retorna a lista de categorias e sub-categorias
+   * @responseBody 200 - <Category[]>.with(relations) - Retorna a lista de categorias e sub-categorias
+   * @paramUse(sortable, filterable)
+   * @responseHeader 200 - @use(paginated)
+   * @responseHeader 200 - X-pages - A description of the header - @example(test)
    */
   async index({ request, response }: HttpContext) {
     try {

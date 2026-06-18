@@ -1,0 +1,491 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "title",
+    "version": "1.0.0",
+    "description": ""
+  },
+  "components": {
+    "responses": {
+      "Forbidden": {
+        "description": "Access token is missing or invalid"
+      },
+      "Accepted": {
+        "description": "The request was accepted"
+      },
+      "Created": {
+        "description": "The resource has been created"
+      },
+      "NotFound": {
+        "description": "The resource has been created"
+      },
+      "NotAcceptable": {
+        "description": "The resource has been created"
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      },
+      "BasicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      },
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key"
+      }
+    },
+    "schemas": {
+      "Any": {
+        "description": "Any JSON object not defined as schema"
+      },
+      "PaginationMeta": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "number",
+            "example": 100,
+            "nullable": false
+          },
+          "page": {
+            "type": "number",
+            "example": 2,
+            "nullable": false
+          },
+          "perPage": {
+            "type": "number",
+            "example": 10,
+            "nullable": false
+          },
+          "currentPage": {
+            "type": "number",
+            "example": 3,
+            "nullable": false
+          },
+          "lastPage": {
+            "type": "number",
+            "example": 10,
+            "nullable": false
+          },
+          "firstPage": {
+            "type": "number",
+            "example": 1,
+            "nullable": false
+          },
+          "lastPageUrl": {
+            "type": "string",
+            "example": "/?page=10",
+            "nullable": false
+          },
+          "firstPageUrl": {
+            "type": "string",
+            "example": "/?page=1",
+            "nullable": false
+          },
+          "nextPageUrl": {
+            "type": "string",
+            "example": "/?page=6",
+            "nullable": false
+          },
+          "previousPageUrl": {
+            "type": "string",
+            "example": "/?page=5",
+            "nullable": false
+          }
+        }
+      },
+      "CategoryRepositoryInterface": {
+        "type": "object",
+        "properties": {
+          "createCategory(payload": {
+            "nullable": false,
+            "$ref": "#/components/schemas/any)"
+          },
+          "getList(filters": {
+            "nullable": false,
+            "$ref": "#/components/schemas/CategoryFilters)"
+          }
+        },
+        "required": [
+          "createCategory(payload",
+          "getList(filters"
+        ],
+        "description": "CategoryRepositoryInterface (Interface)"
+      },
+      "Category": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 334
+          },
+          "name": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "slug": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          },
+          "status": {
+            "type": "number",
+            "example": 858
+          },
+          "parent_id": {
+            "type": "number",
+            "example": 222
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2021-03-23T16:13:08.489+01:00",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "example": "2021-03-23T16:13:08.489+01:00",
+            "format": "date-time"
+          },
+          "sub_categories": {
+            "$ref": "#/components/schemas/Any",
+            "example": null
+          }
+        },
+        "description": "Category (Model)"
+      },
+      "User": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "current_access_token": {
+            "$ref": "#/components/schemas/AccessToken",
+            "example": null
+          }
+        },
+        "description": "User (Model)"
+      },
+      "CategoryFiltersValidator": {
+        "type": "object",
+        "properties": {
+          "search": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          },
+          "status": {
+            "type": "number",
+            "example": 956,
+            "choices": [
+              "active",
+              "inactive"
+            ]
+          },
+          "sort": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          },
+          "page": {
+            "type": "number",
+            "example": 866
+          },
+          "limit": {
+            "type": "number",
+            "example": 827
+          }
+        },
+        "example": {
+          "search": "Lorem Ipsum",
+          "status": 956,
+          "sort": "Lorem Ipsum",
+          "page": 866,
+          "limit": 827
+        },
+        "description": "CategoryFiltersValidator (Validator)"
+      },
+      "CreateCategoryValidator": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true,
+            "minLength": 3,
+            "maxLength": 255
+          },
+          "parent_id": {
+            "type": "number",
+            "example": 620
+          }
+        },
+        "example": {
+          "name": "Lorem Ipsum",
+          "parent_id": 620
+        },
+        "description": "CreateCategoryValidator (Validator)"
+      },
+      "loginValidator": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true,
+            "maxLength": 254
+          },
+          "password": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true
+          }
+        },
+        "example": {
+          "email": "Lorem Ipsum",
+          "password": "Lorem Ipsum"
+        },
+        "description": "loginValidator (Validator)"
+      },
+      "signupValidator": {
+        "type": "object",
+        "properties": {
+          "fullName": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true
+          },
+          "email": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true,
+            "maxLength": 254
+          },
+          "password": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true,
+            "minLength": 8,
+            "maxLength": 32
+          },
+          "passwordConfirmation": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true,
+            "minLength": 8,
+            "maxLength": 32
+          }
+        },
+        "example": {
+          "fullName": "Lorem Ipsum",
+          "email": "Lorem Ipsum",
+          "password": "Lorem Ipsum",
+          "passwordConfirmation": "Lorem Ipsum"
+        },
+        "description": "signupValidator (Validator)"
+      }
+    }
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "route",
+        "description": "",
+        "parameters": [],
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/auth/signup": {
+      "post": {
+        "summary": "Create v1 (store)",
+        "description": "",
+        "parameters": [],
+        "tags": [
+          "V1"
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          }
+        }
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "summary": "Create v1 (store)",
+        "description": "",
+        "parameters": [],
+        "tags": [
+          "V1"
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          }
+        }
+      }
+    },
+    "/api/v1/account/profile": {
+      "get": {
+        "summary": "Get a single instance of v1 (show)",
+        "description": "",
+        "parameters": [],
+        "tags": [
+          "V1"
+        ],
+        "responses": {
+          "401": {
+            "description": "Returns **401** (Unauthorized)"
+          },
+          "403": {
+            "description": "Returns **403** (Forbidden)"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "access"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/account/logout": {
+      "post": {
+        "summary": "Delete v1 (destroy)",
+        "description": "",
+        "parameters": [],
+        "tags": [
+          "V1"
+        ],
+        "responses": {
+          "401": {
+            "description": "Returns **401** (Unauthorized)"
+          },
+          "403": {
+            "description": "Returns **403** (Forbidden)"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "access"
+            ]
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          }
+        }
+      }
+    },
+    "/api/v1/category": {
+      "post": {
+        "summary": "Create v1 (store)",
+        "description": "",
+        "parameters": [],
+        "tags": [
+          "V1"
+        ],
+        "responses": {
+          "401": {
+            "description": "Returns **401** (Unauthorized)"
+          },
+          "403": {
+            "description": "Returns **403** (Forbidden)"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "access"
+            ]
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          }
+        }
+      },
+      "get": {
+        "summary": "Get a list of v1 (index)",
+        "description": "Retorna a lista de categorias e sub-categorias",
+        "operationId": "getCategories",
+        "parameters": [],
+        "tags": [
+          "V1"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Category"
+                  }
+                },
+                "example": [
+                  {
+                    "id": 334,
+                    "name": "John Doe",
+                    "slug": "Lorem Ipsum",
+                    "status": 858,
+                    "parent_id": 222,
+                    "created_at": "2021-03-23T16:13:08.489+01:00",
+                    "updated_at": "2021-03-23T16:13:08.489+01:00"
+                  }
+                ]
+              }
+            },
+            "description": "Retorna a lista de categorias e sub-categorias",
+            "headers": {
+              "X-pages": {
+                "schema": {
+                  "type": "string",
+                  "example": "test"
+                },
+                "description": "A description of the header"
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "V1",
+      "description": "Everything related to V1"
+    }
+  ]
+}
