@@ -20,7 +20,7 @@ export default class CategoriesController {
 
       return response.ok(categories)
     } catch (error) {
-      return response.status(500).json({ error: 'Internal server error' })
+      return response.status(500).json({ error: error })
     }
   }
 
@@ -43,7 +43,7 @@ export default class CategoriesController {
 
       return response.status(500).json({ error: 'Failed to create category' })
     } catch (error) {
-      return response.status(500).json({ error: 'Internal server error' })
+      return response.status(500).json({ error: error })
     }
   }
 

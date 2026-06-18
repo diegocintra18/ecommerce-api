@@ -8,10 +8,19 @@ export default class CategoryRepository implements CategoryRepositoryInterface {
     const trx = await Database.transaction()
 
     try {
+      if (payload.parent_id != null) {
+        const parentCategory = await Category.find(payload.parent_id)
+
+        if (!parentCategory) {
+          throw new Error('Parent category not found')
+        }
+      }
+
       const category = await Category.create(payload, { client: trx })
       await trx.commit()
       return category
     } catch (error) {
+      console.log(error)
       await trx.rollback()
       throw error
     }
@@ -33,6 +42,9 @@ export default class CategoryRepository implements CategoryRepositoryInterface {
     if (filters.sort) {
       query.orderBy(filters.sort)
     }
+
+    query.whereNull('parent_id')
+    query.preload('subCategories')
 
     return query.paginate(page, limit)
   }

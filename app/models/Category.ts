@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeSave, column } from '@adonisjs/lucid/orm'
+import { BaseModel, beforeSave, column, hasMany } from '@adonisjs/lucid/orm'
 import slugify from 'slugify'
 
 export default class Category extends BaseModel {
@@ -15,11 +15,20 @@ export default class Category extends BaseModel {
   @column()
   declare status: number
 
+  @column()
+  declare parent_id?: number | null
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
+  @hasMany(() => Category, {
+    foreignKey: 'parent_id',
+    localKey: 'id',
+  })
+  public subCategories: any
 
   @beforeSave()
   static async generateSlug(category: Category) {
