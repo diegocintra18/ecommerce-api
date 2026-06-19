@@ -53,6 +53,7 @@ router
     router
       .group(() => {
         router.post('/', [controllers.Categories, 'store'])
+        router.put('/:id', [controllers.Categories, 'update'])
       })
       .prefix('category')
       .use(middleware.auth())

@@ -20,6 +20,7 @@ export interface ApiDefinition {
   }
   categories: {
     store: typeof routes['categories.store']
+    update: typeof routes['categories.update']
     index: typeof routes['categories.index']
   }
 }

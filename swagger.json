@@ -1,9 +1,9 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "title",
+    "title": "Ecommerce Api",
     "version": "1.0.0",
-    "description": ""
+    "description": "Documentação da aplicação de estudos"
   },
   "components": {
     "responses": {
@@ -104,14 +104,19 @@
             "nullable": false,
             "$ref": "#/components/schemas/any)"
           },
-          "getList(filters": {
+          "geCategoriestList(filters": {
             "nullable": false,
             "$ref": "#/components/schemas/CategoryFilters)"
+          },
+          "updateCategory(payload": {
+            "nullable": false,
+            "$ref": "#/components/schemas/any, category_id"
           }
         },
         "required": [
           "createCategory(payload",
-          "getList(filters"
+          "geCategoriestList(filters",
+          "updateCategory(payload"
         ],
         "description": "CategoryRepositoryInterface (Interface)"
       },
@@ -121,7 +126,7 @@
         "properties": {
           "id": {
             "type": "number",
-            "example": 334
+            "example": 109
           },
           "name": {
             "type": "string",
@@ -133,11 +138,11 @@
           },
           "status": {
             "type": "number",
-            "example": 858
+            "example": 591
           },
           "parent_id": {
             "type": "number",
-            "example": 222
+            "example": 387
           },
           "created_at": {
             "type": "string",
@@ -176,7 +181,7 @@
           },
           "status": {
             "type": "number",
-            "example": 956,
+            "example": 968,
             "choices": [
               "active",
               "inactive"
@@ -188,19 +193,19 @@
           },
           "page": {
             "type": "number",
-            "example": 866
+            "example": 547
           },
           "limit": {
             "type": "number",
-            "example": 827
+            "example": 638
           }
         },
         "example": {
           "search": "Lorem Ipsum",
-          "status": 956,
+          "status": 968,
           "sort": "Lorem Ipsum",
-          "page": 866,
-          "limit": 827
+          "page": 547,
+          "limit": 638
         },
         "description": "CategoryFiltersValidator (Validator)"
       },
@@ -216,14 +221,40 @@
           },
           "parent_id": {
             "type": "number",
-            "example": 620
+            "example": 105
           }
         },
         "example": {
           "name": "Lorem Ipsum",
-          "parent_id": 620
+          "parent_id": 105
         },
         "description": "CreateCategoryValidator (Validator)"
+      },
+      "UpdateCategoryValidator": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true,
+            "minLength": 3,
+            "maxLength": 255
+          },
+          "parent_id": {
+            "type": "number",
+            "example": 631
+          },
+          "status": {
+            "type": "number",
+            "example": 991
+          }
+        },
+        "example": {
+          "name": "Lorem Ipsum",
+          "parent_id": 631,
+          "status": 991
+        },
+        "description": "UpdateCategoryValidator (Validator)"
       },
       "loginValidator": {
         "type": "object",
@@ -409,12 +440,46 @@
     "/api/v1/category": {
       "post": {
         "summary": "Create v1 (store)",
-        "description": "",
+        "description": "Cria uma categoria",
+        "operationId": "createCategory",
         "parameters": [],
         "tags": [
           "V1"
         ],
         "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Category"
+                  }
+                },
+                "example": [
+                  {
+                    "id": 109,
+                    "name": "John Doe",
+                    "slug": "Lorem Ipsum",
+                    "status": 591,
+                    "parent_id": 387,
+                    "created_at": "2021-03-23T16:13:08.489+01:00",
+                    "updated_at": "2021-03-23T16:13:08.489+01:00"
+                  }
+                ]
+              }
+            },
+            "description": "Retorna a lista de categorias e sub-categorias",
+            "headers": {
+              "X-pages": {
+                "schema": {
+                  "type": "string",
+                  "example": "test"
+                },
+                "description": "A description of the header"
+              }
+            }
+          },
           "401": {
             "description": "Returns **401** (Unauthorized)"
           },
@@ -428,12 +493,7 @@
               "access"
             ]
           }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {}
-          }
-        }
+        ]
       },
       "get": {
         "summary": "Get a list of v1 (index)",
@@ -455,11 +515,11 @@
                 },
                 "example": [
                   {
-                    "id": 334,
+                    "id": 109,
                     "name": "John Doe",
                     "slug": "Lorem Ipsum",
-                    "status": 858,
-                    "parent_id": 222,
+                    "status": 591,
+                    "parent_id": 387,
                     "created_at": "2021-03-23T16:13:08.489+01:00",
                     "updated_at": "2021-03-23T16:13:08.489+01:00"
                   }
@@ -479,6 +539,74 @@
           }
         },
         "security": []
+      }
+    },
+    "/api/v1/category/{id}": {
+      "put": {
+        "summary": "Update v1 (update)",
+        "description": "Atualiza uma categoria",
+        "operationId": "updateCategory",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "V1"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Category"
+                  }
+                },
+                "example": [
+                  {
+                    "id": 109,
+                    "name": "John Doe",
+                    "slug": "Lorem Ipsum",
+                    "status": 591,
+                    "parent_id": 387,
+                    "created_at": "2021-03-23T16:13:08.489+01:00",
+                    "updated_at": "2021-03-23T16:13:08.489+01:00"
+                  }
+                ]
+              }
+            },
+            "description": "Retorna a lista de categorias e sub-categorias",
+            "headers": {
+              "X-pages": {
+                "schema": {
+                  "type": "string",
+                  "example": "test"
+                },
+                "description": "A description of the header"
+              }
+            }
+          },
+          "401": {
+            "description": "Returns **401** (Unauthorized)"
+          },
+          "403": {
+            "description": "Returns **403** (Forbidden)"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "access"
+            ]
+          }
+        ]
       }
     }
   },

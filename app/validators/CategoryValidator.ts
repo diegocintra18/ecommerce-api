@@ -2,7 +2,13 @@ import vine from '@vinejs/vine'
 
 export const CreateCategoryValidator = vine.create({
   name: vine.string().minLength(3).maxLength(255),
-  parent_id: vine.number().optional()
+  parent_id: vine.number().withoutDecimals().optional()
+})
+
+export const UpdateCategoryValidator = vine.create({
+  name: vine.string().minLength(3).maxLength(255),
+  parent_id: vine.number().withoutDecimals().optional(),
+  status: vine.number().withoutDecimals().optional()
 })
 
 export const CategoryFiltersValidator = vine.create({

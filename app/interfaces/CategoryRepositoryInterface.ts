@@ -3,5 +3,6 @@ import type { CategoryFilters } from '#validators/CategoryValidator'
 
 export default interface CategoryRepositoryInterface {
   createCategory(payload: any): Promise<Category>
-  getList(filters: CategoryFilters): Promise<any>
+  geCategoriestList(filters: CategoryFilters): Promise<any>
+  updateCategory(payload: any, category_id: number): Promise<Category | null>
 }
