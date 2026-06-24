@@ -40,5 +40,6 @@ export default await Env.create(new URL('../', import.meta.url), {
   ELASTICSEARCH_PROTOCOL: Env.schema.string.optional(),
 
   // Session
-  SESSION_DRIVER: Env.schema.enum(['cookie', 'memory', 'database'] as const),
+  SESSION_DRIVER: Env.schema.enum(['cookie', 'memory', 'database', 'redis'] as const),
+  REDIS_PASSWORD: Env.schema.secret.optional()
 })

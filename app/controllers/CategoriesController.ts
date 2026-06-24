@@ -1,7 +1,7 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import { CreateCategoryValidator, CategoryFiltersValidator, UpdateCategoryValidator } from '#validators/CategoryValidator'
 import { CategoryService } from '#services/CategoryService'
-// Usar respostas nativas do Adonis via `response`
+import cache from '@adonisjs/cache/services/main'
 
 export default class CategoriesController {
   categoryService: CategoryService
@@ -17,12 +17,16 @@ export default class CategoriesController {
    * @responseBody 200 - <Category[]>.with(relations) - Retorna a lista de categorias e sub-categorias
    * @paramUse(sortable, filterable)
    * @responseHeader 200 - @use(paginated)
-   * @responseHeader 200 - X-pages - A description of the header - @example(test)
    */
   async index({ request, response }: HttpContext) {
     try {
       const filters = await request.validateUsing(CategoryFiltersValidator)
-      const categories = await this.categoryService.geCategoriestList(filters)
+
+      const categories = await cache.getOrSet({
+        key: 'categories:page${page}',
+        ttl: '10m',
+        factory: () => this.categoryService.geCategoriestList(filters)
+      })
 
       return response.ok(categories)
     } catch (error) {
@@ -38,7 +42,6 @@ export default class CategoriesController {
    * @responseBody 200 - <Category[]>.with(relations) - Retorna a categoria criada
    * @paramUse(sortable, filterable)
    * @responseHeader 200 - @use(paginated)
-   * @responseHeader 200 - X-pages - A description of the header - @example(test)
    */
   async store({ request, response }: HttpContext) {
     try {
@@ -69,7 +72,6 @@ export default class CategoriesController {
    * @responseBody 200 - <Category[]>.with(relations) - Retorna a categoria atualizada
    * @paramUse(sortable, filterable)
    * @responseHeader 200 - @use(paginated)
-   * @responseHeader 200 - X-pages - A description of the header - @example(test)
    */
   async update({ request, response }: HttpContext) {
     try{
