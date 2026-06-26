@@ -51,6 +51,103 @@ export class CategorySchema extends BaseModel {
   declare updatedAt: DateTime | null
 }
 
+export class ProductCategorySchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'updatedAt'] as const
+  $columns = ProductCategorySchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class ProductDetailSchema extends BaseModel {
+  static $columns = ['createdAt', 'deletedAt', 'description', 'id', 'seoDescription', 'seoTitle', 'updatedAt'] as const
+  $columns = ProductDetailSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column.dateTime()
+  declare deletedAt: DateTime | null
+  @column()
+  declare description: string | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare seoDescription: string | null
+  @column()
+  declare seoTitle: string | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class ProductImageSchema extends BaseModel {
+  static $columns = ['createdAt', 'deletedAt', 'id', 'imageUrl', 'sortOrder', 'updatedAt'] as const
+  $columns = ProductImageSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column.dateTime()
+  declare deletedAt: DateTime | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare imageUrl: string | null
+  @column()
+  declare sortOrder: number | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class ProductVariantSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'name', 'price', 'quantity', 'salePrice', 'sku', 'status', 'updatedAt'] as const
+  $columns = ProductVariantSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare name: string | null
+  @column()
+  declare price: number | null
+  @column()
+  declare quantity: number | null
+  @column()
+  declare salePrice: number | null
+  @column()
+  declare sku: string | null
+  @column()
+  declare status: number | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class ProductSchema extends BaseModel {
+  static $columns = ['createdAt', 'deletedAt', 'id', 'name', 'price', 'quantity', 'salesPrice', 'sku', 'slug', 'status', 'updatedAt'] as const
+  $columns = ProductSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column.dateTime()
+  declare deletedAt: DateTime | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare name: string | null
+  @column()
+  declare price: number | null
+  @column()
+  declare quantity: number | null
+  @column()
+  declare salesPrice: number | null
+  @column()
+  declare sku: string | null
+  @column()
+  declare slug: string | null
+  @column()
+  declare status: number | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
 export class UserSchema extends BaseModel {
   static $columns = ['createdAt', 'email', 'fullName', 'id', 'password', 'updatedAt'] as const
   $columns = UserSchema.$columns

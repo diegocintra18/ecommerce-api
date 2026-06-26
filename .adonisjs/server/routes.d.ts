@@ -10,6 +10,7 @@ export type ScannedRoutes = {
     'profile.access_tokens.destroy': { paramsTuple?: []; params?: {} }
     'categories.store': { paramsTuple?: []; params?: {} }
     'categories.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'products.store': { paramsTuple?: []; params?: {} }
     'categories.index': { paramsTuple?: []; params?: {} }
   }
   GET: {
@@ -25,6 +26,7 @@ export type ScannedRoutes = {
     'auth.access_tokens.store': { paramsTuple?: []; params?: {} }
     'profile.access_tokens.destroy': { paramsTuple?: []; params?: {} }
     'categories.store': { paramsTuple?: []; params?: {} }
+    'products.store': { paramsTuple?: []; params?: {} }
   }
   PUT: {
     'categories.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }

@@ -42,6 +42,12 @@ const routes = {
     tokens: [{"old":"/api/v1/category/:id","type":0,"val":"api","end":""},{"old":"/api/v1/category/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/category/:id","type":0,"val":"category","end":""},{"old":"/api/v1/category/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['categories.update']['types'],
   },
+  'products.store': {
+    methods: ["POST"],
+    pattern: '/api/v1/product',
+    tokens: [{"old":"/api/v1/product","type":0,"val":"api","end":""},{"old":"/api/v1/product","type":0,"val":"v1","end":""},{"old":"/api/v1/product","type":0,"val":"product","end":""}],
+    types: placeholder as Registry['products.store']['types'],
+  },
   'categories.index': {
     methods: ["GET","HEAD"],
     pattern: '/api/v1/category',

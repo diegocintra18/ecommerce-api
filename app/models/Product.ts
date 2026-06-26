@@ -1,6 +1,8 @@
-import { BaseModel, beforeSave, column } from '@adonisjs/lucid/orm'
+import { BaseModel, beforeSave, column, manyToMany } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 import slugify from 'slugify'
+import Category from '#models/Category'
+import * as relations from '@adonisjs/lucid/types/relations'
 
 export default class Product extends BaseModel {
   @column({ isPrimary: true })
@@ -51,5 +53,10 @@ export default class Product extends BaseModel {
       product.status = 1
     }
   }
+
+  @manyToMany(() => Category, {
+    pivotTable: 'product_categories',
+  })
+  declare categories: relations.ManyToMany<typeof Category>
 }
 

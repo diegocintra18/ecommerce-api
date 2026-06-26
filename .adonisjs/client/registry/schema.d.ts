@@ -79,6 +79,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/CategoriesController').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'products.store': {
+    methods: ["POST"]
+    pattern: '/api/v1/product'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/ProductValidator').CreateProductValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/ProductValidator').CreateProductValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/ProductsController').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/ProductsController').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'categories.index': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/category'

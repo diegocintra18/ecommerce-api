@@ -10,20 +10,22 @@
 import { middleware } from '#start/kernel'
 import router from '@adonisjs/core/services/router'
 import { controllers } from '#generated/controllers'
-import AutoSwagger from "adonis-autoswagger";
-import swagger from "#config/swagger";
+import AutoSwagger from 'adonis-autoswagger'
+import swagger from '#config/swagger'
+const ProductsController = () => import('#controllers/ProductsController')
+const CategoriesController = () => import('#controllers/CategoriesController')
 
 // returns swagger in YAML
-router.get("/swagger", async () => {
-  return AutoSwagger.default.docs(router.toJSON(), swagger);
-});
+router.get('/swagger', async () => {
+  return AutoSwagger.default.docs(router.toJSON(), swagger)
+})
 
 // Renders Swagger-UI and passes YAML-output of /swagger
-router.get("/docs", async () => {
-  return AutoSwagger.default.ui("/swagger", swagger);
+router.get('/docs', async () => {
+  return AutoSwagger.default.ui('/swagger', swagger)
   // return AutoSwagger.default.scalar("/swagger"); to use Scalar instead. If you want, you can pass proxy url as second argument here.
   // return AutoSwagger.default.rapidoc("/swagger", "view"); to use RapiDoc instead (pass "view" default, or "read" to change the render-style)
-});
+})
 
 router.get('/', () => {
   return { hello: 'world' }
@@ -48,20 +50,26 @@ router
       .as('profile')
       .use(middleware.auth())
 
-
     // Private Envdpoints
     router
       .group(() => {
-        router.post('/', [controllers.Categories, 'store'])
-        router.put('/:id', [controllers.Categories, 'update'])
+        router.post('/', [CategoriesController, 'store'])
+        router.put('/:id', [CategoriesController, 'update'])
       })
       .prefix('category')
+      .use(middleware.auth())
+
+    router
+      .group(() => {
+        router.post('/', [ProductsController, 'store'])
+      })
+      .prefix('product')
       .use(middleware.auth())
 
     // Public Endpoints
     router
       .group(() => {
-        router.get('/', [controllers.Categories, 'index'])
+        router.get('/', [CategoriesController, 'index'])
       })
       .prefix('category')
   })

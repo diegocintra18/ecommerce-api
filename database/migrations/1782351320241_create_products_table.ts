@@ -10,7 +10,7 @@ export default class extends BaseSchema {
       table.string('slug').unique()
       table.string('sku').unique()
       table.float('price')
-      table.float('sales_price')
+      table.float('sale_price')
       table.integer('quantity')
       table.tinyint('status')
       table.timestamp('created_at')
