@@ -6,6 +6,20 @@ export default class extends BaseSchema {
   async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
+      table
+        .integer('product_id')
+        .unsigned()
+        .notNullable()
+        .references('id')
+        .inTable('products')
+        .onDelete('CASCADE')
+      table
+        .integer('category_id')
+        .unsigned()
+        .notNullable()
+        .references('id')
+        .inTable('categories')
+        .onDelete('CASCADE')
       table.foreign('category_id', 'categories.id')
       table.foreign('product_id', 'products.id')
       table.timestamp('created_at')

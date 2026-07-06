@@ -21,7 +21,7 @@ export default class Product extends BaseModel {
   declare price: number
 
   @column()
-  declare sales_price: number
+  declare sale_price: number
 
   @column()
   declare quantity: number
@@ -34,6 +34,11 @@ export default class Product extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
+  @manyToMany(() => Category, {
+    pivotTable: 'product_categories',
+  })
+  declare categories: relations.ManyToMany<typeof Category>
 
   @beforeSave()
   static async generateSlug(product: Product) {
@@ -53,10 +58,5 @@ export default class Product extends BaseModel {
       product.status = 1
     }
   }
-
-  @manyToMany(() => Category, {
-    pivotTable: 'product_categories',
-  })
-  declare categories: relations.ManyToMany<typeof Category>
 }
 

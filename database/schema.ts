@@ -52,12 +52,16 @@ export class CategorySchema extends BaseModel {
 }
 
 export class ProductCategorySchema extends BaseModel {
-  static $columns = ['createdAt', 'id', 'updatedAt'] as const
+  static $columns = ['categoryId', 'createdAt', 'id', 'productId', 'updatedAt'] as const
   $columns = ProductCategorySchema.$columns
+  @column()
+  declare categoryId: number
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime | null
   @column({ isPrimary: true })
   declare id: number
+  @column()
+  declare productId: number
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 }
@@ -122,7 +126,7 @@ export class ProductVariantSchema extends BaseModel {
 }
 
 export class ProductSchema extends BaseModel {
-  static $columns = ['createdAt', 'deletedAt', 'id', 'name', 'price', 'quantity', 'salesPrice', 'sku', 'slug', 'status', 'updatedAt'] as const
+  static $columns = ['createdAt', 'deletedAt', 'id', 'name', 'price', 'quantity', 'salePrice', 'sku', 'slug', 'status', 'updatedAt'] as const
   $columns = ProductSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime | null
@@ -137,7 +141,7 @@ export class ProductSchema extends BaseModel {
   @column()
   declare quantity: number | null
   @column()
-  declare salesPrice: number | null
+  declare salePrice: number | null
   @column()
   declare sku: string | null
   @column()

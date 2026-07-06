@@ -1,6 +1,8 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeSave, column, hasMany } from '@adonisjs/lucid/orm'
+import { BaseModel, beforeSave, column, hasMany, manyToMany } from '@adonisjs/lucid/orm'
 import slugify from 'slugify'
+import * as relations from '@adonisjs/lucid/types/relations'
+import Product from '#models/Product'
 
 export default class Category extends BaseModel {
   @column({ isPrimary: true })
@@ -29,6 +31,11 @@ export default class Category extends BaseModel {
     localKey: 'id',
   })
   public subCategories: any
+
+  @manyToMany(() => Product, {
+    pivotTable: 'product_categories',
+  })
+  declare products: relations.ManyToMany<typeof Product>
 
   @beforeSave()
   static async generateSlug(category: Category) {

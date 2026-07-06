@@ -7,7 +7,13 @@ export default class ProductRepository implements ProductRepositoryInterface {
     const trx = await Database.transaction()
 
     try {
-      const product = await Product.create(payload, { client: trx })
+      const { categories, ...productData } = payload
+
+      const product = await Product.create(productData, {
+        client: trx,
+      })
+
+      await product.related('categories').attach(categories)
       await trx.commit()
 
       return product
