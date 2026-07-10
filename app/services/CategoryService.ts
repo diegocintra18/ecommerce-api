@@ -13,8 +13,8 @@ export class CategoryService {
     return await this.categoryRepository.createCategory(payload)
   }
 
-  public async geCategoriestList(filters: CategoryFilters) {
-    return this.categoryRepository.geCategoriestList(filters)
+  public async getCategoriestList(filters: CategoryFilters) {
+    return this.categoryRepository.getCategoriesList(filters)
   }
 
   public async updateCategory(payload: UpdateCategoryDTO, category_id: number) {

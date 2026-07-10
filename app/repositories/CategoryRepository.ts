@@ -19,7 +19,7 @@ export default class CategoryRepository implements CategoryRepositoryInterface {
 
       const category = await Category.create(payload, { client: trx })
       await trx.commit()
-      
+
       return category
     } catch (error) {
       console.log(error)
@@ -28,7 +28,7 @@ export default class CategoryRepository implements CategoryRepositoryInterface {
     }
   }
 
-  public async geCategoriestList(filters: CategoryFilters) {
+  public async getCategoriesList(filters: CategoryFilters) {
     const page = filters.page ?? 1
     const limit = filters.limit ?? 10
     const query = Category.query()
@@ -60,7 +60,7 @@ export default class CategoryRepository implements CategoryRepositoryInterface {
 
       await category?.save()
       await trx.commit()
-      
+
       return category
     } catch (error) {
       console.log(error)

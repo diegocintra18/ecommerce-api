@@ -14,16 +14,18 @@ export const CreateProductValidator = vine.create({
 
 export const ProductFiltersValidator = vine.create({
   search: vine.string().optional(),
-  status: vine.enum(['active', 'inactive'] as const).optional(),
+  status: vine.number().optional(),
   sort: vine.string().optional(),
   page: vine.number().optional(),
   limit: vine.number().optional(),
+  category: vine.number().optional(),
 })
 
 export type ProductFilters = {
   search?: string
-  status?: 'active' | 'inactive'
+  status?: 1 | 0
   sort?: string
   page?: number
   limit?: number
+  category?: number
 }

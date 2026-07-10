@@ -25,5 +25,6 @@ export interface ApiDefinition {
   }
   products: {
     store: typeof routes['products.store']
+    index: typeof routes['products.index']
   }
 }

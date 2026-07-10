@@ -67,10 +67,7 @@ router
       .use(middleware.auth())
 
     // Public Endpoints
-    router
-      .group(() => {
-        router.get('/', [CategoriesController, 'index'])
-      })
-      .prefix('category')
+    router.get('/category', [CategoriesController, 'index'])
+    router.get('/product', [ProductsController, 'index'])
   })
   .prefix('/api/v1')

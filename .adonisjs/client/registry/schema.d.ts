@@ -103,4 +103,16 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/CategoriesController').default['index']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'products.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/product'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/ProductValidator').ProductFiltersValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/ProductsController').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/ProductsController').default['index']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
 }

@@ -25,7 +25,7 @@ export default class CategoriesController {
       const categories = await cache.getOrSet({
         key: 'categories:page${page}',
         ttl: '10m',
-        factory: () => this.categoryService.geCategoriestList(filters)
+        factory: () => this.categoryService.getCategoriestList(filters)
       })
 
       return response.ok(categories)
